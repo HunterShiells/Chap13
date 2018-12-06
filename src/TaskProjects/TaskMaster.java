@@ -1,14 +1,15 @@
-
 package TaskProjects;
 
 import java.util.*;
 import javax.swing.*;
 
 public class TaskMaster extends javax.swing.JFrame {
+
     ArrayList list;
     ListIterator li;
     int curtask, tottask;
     Task t;
+
     public TaskMaster() {
         initComponents();
         list = new ArrayList();
@@ -92,12 +93,32 @@ public class TaskMaster extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), null));
 
         btnfirst.setText("|<");
+        btnfirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnfirstActionPerformed(evt);
+            }
+        });
 
         btnprev.setText("<");
+        btnprev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnprevActionPerformed(evt);
+            }
+        });
 
         btnlast.setText(">|");
+        btnlast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlastActionPerformed(evt);
+            }
+        });
 
         btnnext.setText(">");
+        btnnext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,9 +150,19 @@ public class TaskMaster extends javax.swing.JFrame {
         jMenu1.setText("Program");
 
         jMenuItem1.setText("Show All Tasks");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
@@ -139,9 +170,19 @@ public class TaskMaster extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         jMenuItem3.setText("Replace This as Current Task");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Remove Current Task");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Restore Current Task to Screen");
@@ -153,6 +194,11 @@ public class TaskMaster extends javax.swing.JFrame {
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("Clear Screen");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuBar1.add(jMenu2);
@@ -160,6 +206,11 @@ public class TaskMaster extends javax.swing.JFrame {
         jMenu3.setText("Insert");
 
         jMenuItem7.setText("Before Current Task");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuItem8.setText("After Current Task");
@@ -223,18 +274,24 @@ public class TaskMaster extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
+        li.next();
+        t = (Task) li.previous();
+        lblctask.setText("Current task: " + curtask);
+        txtname.setText(t.getName());
+        txtdesc.setText(t.getDesc());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         String nm = txtname.getText();
         String d = txtdesc.getText();
         Task t = new Task(nm, d);
-        if(t.validate()==false){
+        if (t.validate() == false) {
             JOptionPane.showMessageDialog(this, "Error - Must enter all information");
             return;
         }
-        if(tottask>0) li.next();
+        if (tottask > 0) {
+            li.next();
+        }
         li.add(t);
         li.previous();
         curtask++;
@@ -243,6 +300,137 @@ public class TaskMaster extends javax.swing.JFrame {
         lblctask.setText("Current Task: " + curtask);
         JOptionPane.showMessageDialog(this, "Task Added");
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
+        if (curtask == 1) {
+            return;
+        }
+        while (li.hasPrevious()) {
+            li.previous();
+        }
+        li.next();
+        t = (Task) li.previous();
+        curtask = 1;
+        lblctask.setText("Current task: " + curtask);
+        txtname.setText(t.getName());
+        txtdesc.setText(t.getDesc());
+    }//GEN-LAST:event_btnfirstActionPerformed
+
+    private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
+        if (curtask == tottask) {
+            return;
+        }
+        while (li.hasNext()) {
+            li.next();
+        }
+        t = (Task) li.previous();
+        curtask = tottask;
+        lblctask.setText("Current task: " + curtask);
+        txtname.setText(t.getName());
+        txtdesc.setText(t.getDesc());
+    }//GEN-LAST:event_btnlastActionPerformed
+
+    private void btnnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnextActionPerformed
+        if (curtask == tottask) {
+            return;
+        }
+        curtask++;
+        li.next();
+        li.next();
+        t = (Task) li.previous();
+        lblctask.setText("Current task: " + curtask);
+        txtname.setText(t.getName());
+        txtdesc.setText(t.getDesc());
+    }//GEN-LAST:event_btnnextActionPerformed
+
+    private void btnprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprevActionPerformed
+        if (curtask == 1) {
+            return;
+        }
+        curtask--;
+        t = (Task) li.previous();
+        lblctask.setText("Current task: " + curtask);
+        txtname.setText(t.getName());
+        txtdesc.setText(t.getDesc());
+    }//GEN-LAST:event_btnprevActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String result = "";
+        for (int i = 0; i < list.size(); i++) {
+            t = (Task) list.get(i);
+            result += "TASK " + (i + 1) + ":\n" + t.toString() + "\n";
+        }
+        JOptionPane.showMessageDialog(this, result);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        txtname.setText("");
+        txtdesc.setText("");
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if (curtask == 0 || tottask == 0) {
+            return;
+        }
+        String nm = txtname.getText();
+        String d = txtdesc.getText();
+        Task t = new Task(nm, d);
+        if (t.validate() == false) {
+            JOptionPane.showMessageDialog(this, "Error - Must enter all information");
+            return;
+        }
+        li.next();
+        li.set(t);
+        li.previous();
+        lblttask.setText("Total Tasks: " + tottask);
+        lblctask.setText("Current Task: " + curtask);
+        JOptionPane.showMessageDialog(this, "Task Overidden");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        if (tottask == 0) {
+            return;
+        }
+        li.next();
+        li.remove();
+        tottask--;
+        if (tottask == 0) {
+            curtask = 0;
+            txtname.setText("");
+            txtdesc.setText("");
+            lblttask.setText("Total Tasks: " + tottask);
+            lblctask.setText("Current Task: " + curtask);
+        } else if (tottask == 1) {
+            if (li.hasPrevious()) {
+                t= (Task)li.previous();
+            } else {
+                li.next();
+                t = (Task) li.previous();
+            }
+
+            curtask = 1;
+            txtname.setText(t.getName());
+            txtdesc.setText(t.getDesc());
+            lblttask.setText("Total Tasks: " + tottask);
+            lblctask.setText("Current Task: " + curtask);
+        } else if (tottask >= 2) {
+            t = (Task) li.previous();
+            curtask--;
+            txtname.setText(t.getName());
+            txtdesc.setText(t.getDesc());
+            lblttask.setText("Total Tasks: " + tottask);
+            lblctask.setText("Current Task: " + curtask);
+        }
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments

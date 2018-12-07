@@ -429,7 +429,23 @@ public class TaskMaster extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
+        if(tottask==0){
+            JOptionPane.showMessageDialog(this, "Error - Must Already have a task!");
+            return;
+        }
+        String nm = txtname.getText();
+        String d = txtdesc.getText();
+        Task t = new Task(nm, d);
+        if (t.validate() == false) {
+            JOptionPane.showMessageDialog(this, "Error - Must enter all information");
+            return;
+        }
+        li.add(t);
+        li.previous();
+        tottask++;
+        lblttask.setText("Total Tasks: " + tottask);
+        lblctask.setText("Current Task: " + curtask);
+        JOptionPane.showMessageDialog(this, "Task Added Before current");
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
